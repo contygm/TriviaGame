@@ -2,19 +2,7 @@
 
 
 
-// function printTen(){
-	
-// 	var usedNum= [];
 
-// 	while (usedNum.length < 10) {
-// 		var j = Math.floor(Math.random() * 10) + 1;
-
-// 		if (!usedNum.includes(j)){
-// 			usedNum.push(j);
-// 			console.log(usedNum);
-// 		};
-// 	};
-// };
 
 
 var answerBank = [
@@ -57,6 +45,22 @@ function downTime(){
 
 };
 
+var usedNum= [];
+
+function shuffle(max){
+
+	usedNum = [];
+
+	while (usedNum.length < max) {
+		var j = Math.floor(Math.random() * max) + 1;
+
+		if (!usedNum.includes(j)){
+			usedNum.push(j);
+			
+		};
+	};
+};
+
 $(document).ready(function() {
 
 	$('button').click(function(event){
@@ -67,6 +71,9 @@ $(document).ready(function() {
 		$('#choice2').html('<h2>' + answerBank[0].option1 + '</h2>');
 		$('#choice3').html('<h2>' + answerBank[0].option2 + '</h2>');
 
+		// answers in array,
+		
 	});
+
 
 });
