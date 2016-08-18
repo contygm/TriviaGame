@@ -34,6 +34,8 @@ var answerBank = [
 	}
 ];
 
+
+
 var second = 30; 
 	
 function downTime(){
@@ -42,6 +44,11 @@ function downTime(){
         
     // Show the number in the #show-number tag.
     $('#timer').html('<h2>' + second + '</h2>');
+
+    if (second === 0){
+    	clearInterval();
+    	second = 30;
+    };
 
 };
 
@@ -61,17 +68,21 @@ function shuffle(max){
 	};
 };
 
+function fill(index) {
+	$('#question').html('<h2>' + answerBank[index].question + '</h2>');
+	$('#choice1').html('<h2>' + answerBank[index].answer + '</h2>');
+	$('#choice2').html('<h2>' + answerBank[index].option1 + '</h2>');
+	$('#choice3').html('<h2>' + answerBank[index].option2 + '</h2>');
+};
+
 $(document).ready(function() {
 
 	$('button').click(function(event){
 
 		timer = setInterval(downTime,1000);
-		$('#question').html('<h2>' + answerBank[0].question + '</h2>');
-		$('#choice1').html('<h2>' + answerBank[0].answer + '</h2>');
-		$('#choice2').html('<h2>' + answerBank[0].option1 + '</h2>');
-		$('#choice3').html('<h2>' + answerBank[0].option2 + '</h2>');
+		fill(0);
 
-		// answers in array,
+		// answers in array
 		
 	});
 
