@@ -7,13 +7,13 @@ var answerBank = [
 	option1: "Allen-coholic", 
 	option2: "De-Griffth",
 	correctMessage: "Yup! Remember when she slapped him?",
-	wrongMessage: "She slapped him! How do you not remember that?",
+	wrongMessage: "Boo Boo! She even slapped him! How do you not remember that?",
 	// imageRight:,
 	// imageWrong:,
 	},
 
 	{
-	question: "Gene most used sample is a _____________",
+	question: "Gene's most used sample is a _____________",
 	answer: "Fart Sound",
 	option1: "Symbol Clash", 
 	option2: "Gale’s Cats",
