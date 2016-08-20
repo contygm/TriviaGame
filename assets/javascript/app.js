@@ -23,8 +23,8 @@ var answerBank = [
 
 	{
 	question: "When the kids trick or treat on King’s Island, what is Gene’s Halloween Costume?",
-	answer: "Queen Latifah (U.N.I.T.Y. Phase)",
-	option1: "Edward Scissors Hands", 
+	answer: "Queen Latifah, U.N.I.T.Y.",
+	option1: "Edward ScissorsHands", 
 	option2: "Mommy Mummy",
 	correctMessage: "Why? Because he’s knows what’s up.",
 	wrongMessage: "Nah bruh, he chose to be a true Queen Latifah.",
@@ -51,11 +51,11 @@ function downTime(){
     seconds--;
         
     // Show the number in the #show-number tag.
-    $('#timerText').html('<h2>' + seconds + '</h2>');
+    $('#timerText').html(seconds);
 };
 
 function resetTimer(){
-    seconds = 3;
+    seconds = 20;
     timer = setInterval(downTime,1000);
 };
 
@@ -81,8 +81,8 @@ function shuffle(max){
 function correct(){
 	// display correctMessage, correctImage, bannerImg
 	$('#answerArea').empty();
-	$('#banner').html("<img src= 'assets/images/yes.png'>");
-	$('#qText').html(answerBank[qOrder[count]].correctMessage);
+	$('#banner').html("<img class='responseImg' src= 'assets/images/yes.png'>");
+	$('#qText').html('<h2>' + answerBank[qOrder[count]].correctMessage + '</h2>');
 	// $('answerArea').html(answerBank[qOrder[count]].imageRight);
 	wins++;
 };
@@ -90,8 +90,8 @@ function correct(){
 function wrong(){
 	// display wrongMessage, wrongImage
 	$('#answerArea').empty();
-	$('#banner').html("<img src= 'assets/images/no.png'>");
-	$('#qText').html(answerBank[qOrder[count]].wrongMessage);
+	$('#banner').html("<img class='responseImg' src= 'assets/images/no.png'>");
+	$('#qText').html('<h2>' + answerBank[qOrder[count]].wrongMessage + '</h2>');
 	// $('answerArea').html(answerBank[qOrder[count]].imageWrong);
 	losses++;
 };
@@ -121,13 +121,14 @@ $(document).ready(function() {
 			setTimeout(end,3500);
 		} else {
 			$('#timerText').html('10');
+			$('#banner').empty();
 			$('#qText').html('<h2>' + answerBank[qOrder[count]].question + '</h2>');
 			$('#choice'+ choiceOrder[0] + 'Text').html('<h2>' + answerBank[qOrder[count]].answer + '</h2>');
 			$('#choice' + choiceOrder[1] + 'Text').html('<h2>' + answerBank[qOrder[count]].option1 + '</h2>');
 			$('#choice' + choiceOrder[2] + 'Text').html('<h2>' + answerBank[qOrder[count]].option2 + '</h2>');
 			stopTimer();
 			resetTimer();
-			timesUpID = setTimeout(timesUp, 3 * 1000);
+			timesUpID = setTimeout(timesUp, 20 * 1000);
 		}
 	};
 
@@ -142,8 +143,8 @@ $(document).ready(function() {
 
 			$('#answerArea').empty();
 			$('#timerText').empty();
-			$('#qText').html(answerBank[qOrder[count]].wrongMessage);
-			$('#banner').html("<img src= 'assets/images/no.png'>");
+			$('#qText').html('<h2>' + answerBank[qOrder[count]].wrongMessage + '</h2>');
+			$('#banner').html("<img class='responseImg' src= 'assets/images/no.png'>");
 			// $('answerArea').html(answerBank[qOrder[count]].imageWrong);
 			console.log("time out " + timeOut);
 
@@ -163,17 +164,21 @@ $(document).ready(function() {
 			$('#choice0Text').html('<h2> Right </h2>');
 			$('#choice1Text').html('<h2> Wrong </h2>');
 			$('#choice2Text').html('<h2> Timed Out </h2>');
-			$('#button').html("<button id='reset'> Another Round? </button>")
+			
+			$('#button').html("<button id='reset' class='btn btn-success btn-lg btn-block'> Another Round? </button>")
+			$('#qText').html("<h2>How'd you do?</h2>");
+
+			$('#choice0Img').html("<img src = 'assets/images/"+ wins +".png'>");
+			$('#choice1Img').html("<img src = 'assets/images/"+ losses +".png'>");
+			$('#choice2Img').html("<img src = 'assets/images/"+ timeOut +".png'>");
+			$('#banner').empty();
 
 
-			if (wins > losses+timeOut){
-				$('#choice0Img').html("<img src = 'assets/images/yes.png'>");
-				$('#choice1Img').html("<img src = 'assets/images/yes.png'>");
-				$('#choice2Img').html("<img src = 'assets/images/yes.png'>");
+			if (wins > (losses+timeOut)){
+				$('#banner').html("<img class= 'logo' src ='assets/images/winner.png'>");
 			} else {
-				$('#choice0Img').html("<img src = 'assets/images/no.png'>");
-				$('#choice1Img').html("<img src = 'assets/images/no.png'>");
-				$('#choice2Img').html("<img src = 'assets/images/no.png'>");
+				
+				$('#banner').html("<img class= 'logo' src='assets/images/loser.png'>");
 			}
 		}
 	};
