@@ -42,30 +42,21 @@ var wins = 0;
 var losses = 0;
 var timeOut = 0;
 var timer;
-var qAreaClone = $("#qArea").clone(true);
-var answerAreaClone = $('#answerArea').clone(true);
+var timesUpID;
 
 // ----------- functions -------------
 	
 function downTime(){
     // Decrease number by one.
-    
-    if (seconds > 0) {
-    	seconds--;
+    seconds--;
         
-    	// Show the number in the #show-number tag.
-    	$('#timerText').html('<h2>' + seconds + '</h2>');
-    
-    } 
-    else {
-    	timesUp();
-    }
+    // Show the number in the #show-number tag.
+    $('#timerText').html('<h2>' + seconds + '</h2>');
 };
 
 function resetTimer(){
     seconds = 3;
     timer = setInterval(downTime,1000);
-
 };
 
 function stopTimer(){
@@ -75,29 +66,17 @@ function stopTimer(){
 
 
 function shuffle(max){
-
 	usedNum = [];
 
 	while (usedNum.length < max) {
 		var j = Math.floor(Math.random() * max);
 
 		if (!usedNum.includes(j)){
-			usedNum.push(j);
-			
+			usedNum.push(j);	
 		};
 	};
 };
 
-function fill() {
-	
-	$('#qText').html('<h2>' + answerBank[qOrder[count]].question + '</h2>');
-	$('#choice'+ choiceOrder[0] + 'Text').html('<h2>' + answerBank[qOrder[count]].answer + '</h2>');
-	$('#choice' + choiceOrder[1] + 'Text').html('<h2>' + answerBank[qOrder[count]].option1 + '</h2>');
-	$('#choice' + choiceOrder[2] + 'Text').html('<h2>' + answerBank[qOrder[count]].option2 + '</h2>');
-	stopTimer();
-	resetTimer();
-
-};
 
 function correct(){
 	// display correctMessage, correctImage, bannerImg
@@ -106,7 +85,7 @@ function correct(){
 	$('#qText').html(answerBank[qOrder[count]].correctMessage);
 	// $('answerArea').html(answerBank[qOrder[count]].imageRight);
 	wins++;
-}	
+};
 
 function wrong(){
 	// display wrongMessage, wrongImage
@@ -115,17 +94,19 @@ function wrong(){
 	$('#qText').html(answerBank[qOrder[count]].wrongMessage);
 	// $('answerArea').html(answerBank[qOrder[count]].imageWrong);
 	losses++;
-}
-		
-function timesUp(){
-	timeOut++;
+};
 
-	$('#answerArea').empty();
-	$('#qText').html(answerBank[qOrder[count]].wrongMessage);
-	$('#banner').html("<img src= 'assets/images/no.png'>");
-	// $('answerArea').html(answerBank[qOrder[count]].imageWrong);
-	console.log("time out " + timeOut);
-	return;
+function resetVar(){
+	var seconds; 
+	var usedNum= [];
+	var qOrder = [];
+	var choiceOrder = [];
+	var count = 0;
+	var wins = 0;
+	var losses = 0;
+	var timeOut = 0;
+	var timer;
+	var timesUpID;
 }
 
 
@@ -133,9 +114,10 @@ function timesUp(){
 
 $(document).ready(function() {
 
-
+	// ------ Inner Vars and Functions -------
 	var qAreaClone = $("#qArea").clone(true);
 	var answerAreaClone = $('#answerArea').clone(true);
+
 
 	function qClone(){
 		$("#qArea").replaceWith(qAreaClone.clone(true));
@@ -145,9 +127,91 @@ $(document).ready(function() {
 		$("#answerArea").replaceWith(answerAreaClone.clone(true));
 	};
 
-	$('button').click(function(event){
+	function fill() {
+		if (count > 2){
+			setTimeout(end,3500);
+		} else {
+			$('#timerText').html('10');
+			$('#qText').html('<h2>' + answerBank[qOrder[count]].question + '</h2>');
+			$('#choice'+ choiceOrder[0] + 'Text').html('<h2>' + answerBank[qOrder[count]].answer + '</h2>');
+			$('#choice' + choiceOrder[1] + 'Text').html('<h2>' + answerBank[qOrder[count]].option1 + '</h2>');
+			$('#choice' + choiceOrder[2] + 'Text').html('<h2>' + answerBank[qOrder[count]].option2 + '</h2>');
+			stopTimer();
+			resetTimer();
+			timesUpID = setTimeout(timesUp, 3 * 1000);
+		}
+	};
 
-		// timer = setInterval(downTime,1000);
+	function timesUp(){
+		timeOut++;
+
+		stopTimer();
+
+		if (count > 2){
+			setTimeout(end,3500);
+		} else {
+
+			$('#answerArea').empty();
+			$('#timerText').empty();
+			$('#qText').html(answerBank[qOrder[count]].wrongMessage);
+			$('#banner').html("<img src= 'assets/images/no.png'>");
+			// $('answerArea').html(answerBank[qOrder[count]].imageWrong);
+			console.log("time out " + timeOut);
+
+			setTimeout(aClone,3500);
+
+			setTimeout(fill,3500);
+
+			setTimeout(count++,3500);
+			console.log("count " + count);
+		}
+		
+	}
+
+	function end(){
+		if (wins + losses + timeOut == 3){
+			aClone();
+			$('#choice0Text').html('<h2> Right </h2>');
+			$('#choice1Text').html('<h2> Wrong </h2>');
+			$('#choice2Text').html('<h2> Timed Out </h2>');
+			$('#button').html("<button id='reset'> Another Round? </button>")
+
+
+			if (wins > losses+timeOut){
+				$('#choice0Img').html("<img src = 'assets/images/yes.png'>");
+				$('#choice1Img').html("<img src = 'assets/images/yes.png'>");
+				$('#choice2Img').html("<img src = 'assets/images/yes.png'>");
+			} else {
+				$('#choice0Img').html("<img src = 'assets/images/no.png'>");
+				$('#choice1Img').html("<img src = 'assets/images/no.png'>");
+				$('#choice2Img').html("<img src = 'assets/images/no.png'>");
+			}
+		}
+	};
+
+	function resetEverything(){
+		
+
+		shuffle(3);
+		var temp = usedNum;
+		choiceOrder = temp;
+		console.log("choice " + choiceOrder)
+
+		shuffle(3);
+		var temp2 = usedNum;
+		qOrder = temp2;
+		console.log("qOrder " + qOrder);
+
+		fill();	
+
+		$('#button').empty();
+		console.log("count " + count);
+	}		
+
+
+	//------ the Actual Good Stuff --------
+	$('#start').click(function(event){
+		
 		
 		shuffle(3);
 		var temp = usedNum;
@@ -169,6 +233,8 @@ $(document).ready(function() {
 
 	$("#wrapper").on("click", ".choice", function(event){
 		
+		clearTimeout(timesUpID);
+
 		var temp = $(this).find('h2').html();
 		console.log(temp);
 
@@ -191,7 +257,10 @@ $(document).ready(function() {
 
 	});
 
-
+	$("#button").on("click", "#reset", function(event){
+		resetEverything();
+		resetVar();
+	});
 
 
 });
