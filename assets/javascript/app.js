@@ -96,18 +96,7 @@ function wrong(){
 	losses++;
 };
 
-function resetVar(){
-	var seconds; 
-	var usedNum= [];
-	var qOrder = [];
-	var choiceOrder = [];
-	var count = 0;
-	var wins = 0;
-	var losses = 0;
-	var timeOut = 0;
-	var timer;
-	var timesUpID;
-}
+
 
 
 // -------- the Good Stuff ---------
@@ -189,8 +178,11 @@ $(document).ready(function() {
 		}
 	};
 
-	function resetEverything(){
-		
+	function resetLeftover(){
+
+		$('#answerArea').empty();
+		aClone();
+
 
 		shuffle(3);
 		var temp = usedNum;
@@ -208,6 +200,20 @@ $(document).ready(function() {
 		console.log("count " + count);
 	}		
 
+
+	function resetVar(){
+		seconds; 
+		usedNum= [];
+		qOrder = [];
+		choiceOrder = [];
+		count = 0;
+		wins = 0;
+		losses = 0;
+		timeOut = 0;
+		timer;
+		timesUpID;
+		console.log(usedNum);
+	}
 
 	//------ the Actual Good Stuff --------
 	$('#start').click(function(event){
@@ -258,8 +264,9 @@ $(document).ready(function() {
 	});
 
 	$("#button").on("click", "#reset", function(event){
-		resetEverything();
 		resetVar();
+		resetLeftover();
+		
 	});
 
 
